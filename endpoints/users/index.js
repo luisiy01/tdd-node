@@ -5,7 +5,7 @@ const handlers = ({ axios }) => ({
     );
     res.status(200).send(data);
   },
-  post: () => async (req, res) => {
+  post: async (req, res) => {
     const { body } = req;
     const { data } = await axios.post(
       'https://jsonplaceholder.typicode.com/users',
@@ -14,16 +14,16 @@ const handlers = ({ axios }) => ({
 
     res.status(201).send(data);
   },
-  put: () => async (req, res) => {
+  put: async (req, res) => {
     const { body } = req;
     const { id } = req.params;
-    await axios.put(`https://jsonplaceholder.typicode.com/users${id}`, body);
+    await axios.put(`https://jsonplaceholder.typicode.com/users/${id}`, body);
 
     res.sendStatus(204);
   },
-  delete: () => async (req, res) => {
+  delete: async (req, res) => {
     const { id } = req.params;
-    await axios.delete(`https://jsonplaceholder.typicode.com/users${id}`);
+    await axios.delete(`https://jsonplaceholder.typicode.com/users/${id}`);
 
     res.sendStatus(204);
   },
