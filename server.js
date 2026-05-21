@@ -1,7 +1,9 @@
 const express = require('express');
 const axios = require('axios');
 const parser = require('body-parser');
-const { users } = require('./endpoints');
+const { posts } = require('./endpoints');
+const { authenticate } = require('./middlewares');
+const services = require('./services');
 const app = express();
 const port = 3000;
 
@@ -9,11 +11,10 @@ app.use(parser.urlencoded({ extended: false }));
 
 app.use(parser.json());
 
-const userHandlres = users({ axios });
+const postsHandlers = posts(services);
 
-app.get('/', userHandlres.get);
-app.post('/', userHandlres.post);
-app.put('/:id', userHandlres.put);
-app.delete('/:id', userHandlres.delete);
+app.post('/', authenticate, postsHandlers.post);
 
 app.listen(port, () => console.log(`Example app listening on port ${port}`));
+
+module.exports = app;
